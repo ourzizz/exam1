@@ -108,11 +108,12 @@ void SetExamPage::RemoveExam()
 void SetExamPage::InitPage()
 {
     model->setTable("exam");
-    model->select();
+    model->setHeaderData(Exam_Code,Qt::Horizontal,tr("考试代码"));
     model->setHeaderData(Exam_Name,Qt::Horizontal,tr("考试名称"));
     model->setHeaderData(Exam_Leibie,Qt::Horizontal,tr("考试类别"));
     model->setHeaderData(Exam_Date,Qt::Horizontal,tr("考试日期"));
     model->setHeaderData(Exam_Ducument,Qt::Horizontal,tr("考试文件"));
+    model->select();
     serverCombo->clear();
     for(int i=0; i < model->rowCount() ;i++)
     {

@@ -15,7 +15,7 @@ MainPage::MainPage()
 
     pagesWidget = new QStackedWidget;
     pagesWidget->addWidget(new SetExamPage(examstatus,statusBar));
-    pagesWidget->addWidget(new SetExamKemuPage);
+    pagesWidget->addWidget(new SetKemuPage(examstatus));
     //pagesWidget->addWidget(new UpdatePage);
     //pagesWidget->addWidget(new QueryPage);
 

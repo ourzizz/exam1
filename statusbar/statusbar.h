@@ -18,6 +18,7 @@ class StatusBar:public QStatusBar
     QLabel *bartitle;
     QLabel *examnameLabel;
     QLabel *examkaochangLabel;
+    QLabel *examkemuLabel;
     ExamStatus *examstatus;
     QListWidget *contentsWidget;
 };

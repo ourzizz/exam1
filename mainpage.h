@@ -5,7 +5,7 @@
 #include "examstatus/examstatus.h"
 #include "statusbar/statusbar.h"
 #include "setexampage/setexampage.h"
-#include "setkemupage/setexamkemupage.h"
+#include "setkemupage/setkemupage.h"
 
 QT_BEGIN_NAMESPACE
 class QListWidget;

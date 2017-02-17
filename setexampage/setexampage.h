@@ -36,10 +36,11 @@ private:
     QPushButton *newExamButton;
     QPushButton *deleteExamButton;
     enum{
-        Exam_Name = 0,
-        Exam_Leibie = 1,
-        Exam_Date = 2,
-        Exam_Ducument = 3
+        Exam_Code = 0,
+        Exam_Name = 1,
+        Exam_Leibie = 2,
+        Exam_Date = 3,
+        Exam_Ducument = 4
     };
 };
 

@@ -35,7 +35,7 @@
 *.png
 
 #Makefile
-Makefile.*
+Makefile*
 .qmake.stash
 *.pro
 *.user

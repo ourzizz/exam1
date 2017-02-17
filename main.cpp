@@ -9,7 +9,7 @@ bool connectiondatabes()
     //db.setHostName("www.alemao.cn");
     //db.setPort(53183);
     db.setHostName("192.168.1.107");
-    db.setDatabaseName("exam");
+    db.setDatabaseName("mydb");
     db.setUserName("root");  
     db.setPassword("123123");  
     if (!db.open()) {
