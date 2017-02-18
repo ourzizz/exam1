@@ -3,11 +3,12 @@
 #include <QMessageBox>
 #include "setexampage.h"
 
-SetExamPage::SetExamPage(ExamStatus *examstatus,StatusBar *statusbar,QWidget *parent)
+SetExamPage::SetExamPage(ExamStatus *examstatus,StatusBar *statusbar,ExList *exlist,QWidget *parent)
     : QWidget(parent)
 {
     this->examstatus = examstatus;
     this->statusbar = statusbar;
+    this->exlist = exlist;
     configGroup = new QGroupBox(tr("考试设置"));
     serverLabel = new QLabel(tr("请选择考试:"));
     serverCombo = new QComboBox;
@@ -20,6 +21,7 @@ SetExamPage::SetExamPage(ExamStatus *examstatus,StatusBar *statusbar,QWidget *pa
     selectExamButton = new QPushButton(tr("确定"),this);
     connect(selectExamButton, SIGNAL(clicked()), this, SLOT(SelectExamForGlobal()));
     connect(selectExamButton, SIGNAL(clicked()), statusbar, SLOT(updateStatubar()));
+    connect(selectExamButton, SIGNAL(clicked()), exlist, SLOT(ChangeListImg()));
 
     QHBoxLayout *selectExam = new QHBoxLayout;
     selectExam->addWidget(serverLabel);

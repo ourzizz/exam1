@@ -6,9 +6,10 @@
 bool connectiondatabes()  
 {  
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");  
-    //db.setHostName("www.alemao.cn");
-    //db.setPort(53183);
-    db.setHostName("192.168.1.107");
+    db.setHostName("www.alemao.cn");
+    db.setPort(53183);
+    //db.setHostName("192.168.1.107");
+    //db.setHostName("192.168.0.106");
     db.setDatabaseName("mydb");
     db.setUserName("root");  
     db.setPassword("123123");  
@@ -22,9 +23,9 @@ bool connectiondatabes()
 
 int main(int argc, char *argv[])
 {
+    QApplication app(argc, argv);
     Q_INIT_RESOURCE(exampage);
     connectiondatabes();
-    QApplication app(argc, argv);
     app.setApplicationDisplayName("毕节人事考试系统");
     MainPage mainpage;
     mainpage.showMaximized();

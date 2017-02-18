@@ -7,6 +7,7 @@
    <file>images/query.png</file>
    <file>images/update.png</file>
    <file>images/kemu.png</file>
+   <file>images/lock.png</file>
 </qresource>
 </RCC>
 

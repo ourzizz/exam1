@@ -8,13 +8,14 @@
 #include <QTableView>
 #include "examstatus/examstatus.h"
 #include "statusbar/statusbar.h"
+#include "exlist/exlist.h"
 
 class SetExamPage : public QWidget
 {
     Q_OBJECT
 
 public:
-    SetExamPage(ExamStatus *examstatus,StatusBar *statusbar,QWidget *parent=0);
+    SetExamPage(ExamStatus *examstatus,StatusBar *statusbar,ExList *exlist,QWidget *parent=0);
     void InitPage();
 
 public slots:
@@ -26,6 +27,7 @@ public slots:
 private:
     StatusBar *statusbar;
     ExamStatus *examstatus;
+    ExList *exlist;
     QSqlTableModel *model;
     QTableView *view;
     QComboBox *serverCombo;

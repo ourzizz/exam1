@@ -9,6 +9,7 @@ ExamStatus::ExamStatus()
     StatusArray[KaoshengBaomingStatus]=0;
     StatusArray[KaochangStatus]=0;
     StatusArray[JaoshiStatus] = 0;
+    StatusArray[KaodianStatus] = 0;
 }
 
 void ExamStatus::SelectExam(QString exam_name)
@@ -17,8 +18,6 @@ void ExamStatus::SelectExam(QString exam_name)
     StatusArray[SelectExamStatus] = 1;
     query.clear();
     query.prepare("select count(*) from kemu where ex_name=?");
-    //数据库表结构有问题，同一个属性在各个表中名字不一样，难以编码
-    //今晚回家重建数据库  2-13   
     query.addBindValue(exam_name);
     query.exec();
     query.next();
@@ -38,6 +37,7 @@ void ExamStatus::SelectExam(QString exam_name)
     query.prepare("select count(*) from ksinfo_has_kemu where ex_name=?");
     query.addBindValue(exam_name);
     query.exec();
+    query.next();
     if(0 == query.value(0).toInt())
     {
         StatusArray[KaoshengBaomingStatus]=0;
@@ -53,6 +53,7 @@ void ExamStatus::SelectExam(QString exam_name)
     query.prepare("select count(*) from kaochang where ex_name=?");
     query.addBindValue(exam_name);
     query.exec();
+    query.next();
     if(0 == query.value(0).toInt())
     {
         StatusArray[KaochangStatus]= 0;
@@ -68,6 +69,7 @@ void ExamStatus::SelectExam(QString exam_name)
     query.prepare("select count(*) from jiaoshi where ex_name=?");
     query.addBindValue(exam_name);
     query.exec();
+    query.next();
     if(0 == query.value(0).toInt())
     {
         StatusArray[JaoshiStatus] = 0;

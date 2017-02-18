@@ -7,7 +7,8 @@ enum status{
     KemuStatus,
     KaoshengBaomingStatus,
     KaochangStatus,
-    JaoshiStatus
+    JaoshiStatus,
+    KaodianStatus
 };
 class ExamStatus
 {

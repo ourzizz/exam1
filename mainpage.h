@@ -6,6 +6,7 @@
 #include "statusbar/statusbar.h"
 #include "setexampage/setexampage.h"
 #include "setkemupage/setkemupage.h"
+#include "exlist/exlist.h"
 
 QT_BEGIN_NAMESPACE
 class QListWidget;
@@ -24,8 +25,8 @@ public slots:
     void changePage(QListWidgetItem *current, QListWidgetItem *previous);
 
 private:
-    void createIcons();
-    QListWidget *contentsWidget;
+    //void createIcons();
+    ExList *contentsWidget;
     StatusBar *statusBar;
     QStackedWidget *pagesWidget;
     ExamStatus *examstatus;
