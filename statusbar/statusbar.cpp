@@ -47,6 +47,7 @@ void StatusBar::loadpage(bool *StatusArray)
     {
         examkemuLabel->setText("successful");
     }
+        examkemuLabel->setText("fuckkkkk");
     //}
     //else
     //{

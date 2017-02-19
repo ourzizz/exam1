@@ -123,6 +123,7 @@ void SetExamPage::InitPage()
 }
 void SetExamPage::SelectExamForGlobal()
 {
-    examstatus->SelectExam(serverCombo->currentText());
+    QString name=serverCombo->currentText();
+    examstatus->SelectExam(name);
     //examstatus->SetStatus(SelectExamStatus,1);
 }

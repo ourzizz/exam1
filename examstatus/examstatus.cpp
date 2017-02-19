@@ -27,10 +27,12 @@ void ExamStatus::SelectExam(QString exam_name)
         StatusArray[KaoshengBaomingStatus]=0;
         StatusArray[KaochangStatus]=0;
         StatusArray[JaoshiStatus] = 0;
+    Notify(StatusArray);
         return ;
     }
     else{
         StatusArray[KemuStatus] = 1;
+    Notify(StatusArray);
     }
 
     query.clear();
@@ -77,7 +79,6 @@ void ExamStatus::SelectExam(QString exam_name)
     else{
         StatusArray[JaoshiStatus] = 1;
     }
-    Notify(StatusArray);
 }
 bool ExamStatus::GetStatus(status set)
 {
