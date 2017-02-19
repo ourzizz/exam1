@@ -4,9 +4,10 @@
 #include <QSqlTableModel>
 #include "ui_setkemupage.h"
 #include "examstatus/examstatus.h"
+#include "../observer.h"
 //#include "statusbar/statusbar.h"
 
-class SetKemuPage:public QDialog,public Ui::Form
+class SetKemuPage:public QDialog,public Ui::Form,public Observer
 {
     Q_OBJECT
     public:
@@ -16,6 +17,7 @@ class SetKemuPage:public QDialog,public Ui::Form
         void NewKemu();
         void RemoveKemu();
     private:
+        void loadpage(bool *StatusArray);
         ExamStatus *examstatus;
         QSqlTableModel *model;
         enum{

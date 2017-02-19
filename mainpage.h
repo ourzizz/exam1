@@ -25,10 +25,11 @@ public slots:
     void changePage(QListWidgetItem *current, QListWidgetItem *previous);
 
 private:
-    //void createIcons();
     ExList *contentsWidget;
     StatusBar *statusBar;
     QStackedWidget *pagesWidget;
     ExamStatus *examstatus;
+    SetExamPage *setexampage;
+    SetKemuPage *setkemupage;
 };
 #endif

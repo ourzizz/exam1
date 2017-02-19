@@ -4,15 +4,22 @@
 #include <QDebug>
 MainPage::MainPage()
 {
+    statusBar = new StatusBar;
     examstatus = new ExamStatus;
-    statusBar = new StatusBar(examstatus);
-    contentsWidget = new ExList(examstatus);
+    contentsWidget = new ExList();
 
     qDebug()<<examstatus;
     pagesWidget = new QStackedWidget;
-    pagesWidget->addWidget(new SetExamPage(examstatus,statusBar,contentsWidget));
-    pagesWidget->addWidget(new SetKemuPage(examstatus));
+    setexampage = new SetExamPage(examstatus);
+    setkemupage = new SetKemuPage(examstatus);
+
+    pagesWidget->addWidget(setexampage);
+    pagesWidget->addWidget(setkemupage);
+    //examstatus->Attach(setexampage);
+    examstatus->Attach(setkemupage);
+    examstatus->Attach(statusBar);
     connect(contentsWidget, &QListWidget::currentItemChanged, this, &MainPage::changePage);
+
     //pagesWidget->addWidget(new UpdatePage);
     //pagesWidget->addWidget(new QueryPage);
 

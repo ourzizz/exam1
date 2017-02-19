@@ -77,6 +77,7 @@ void ExamStatus::SelectExam(QString exam_name)
     else{
         StatusArray[JaoshiStatus] = 1;
     }
+    Notify(StatusArray);
 }
 bool ExamStatus::GetStatus(status set)
 {
@@ -86,8 +87,25 @@ bool ExamStatus::GetStatus(status set)
 void ExamStatus::SetStatus(status set,bool stu)
 {
     StatusArray[set] = stu;
+    Notify(StatusArray);
 }
 QString ExamStatus::GetExamName()
 {
     return exam_name;
+}
+
+void ExamStatus::Attach(Observer *pObserver)
+{
+    pagelist.push_back(pObserver);
+}
+
+void ExamStatus::Detach(Observer *pObserver)
+{
+    pagelist.removeOne(pObserver);
+}
+void ExamStatus::Notify(bool *StatusArray)
+{
+    for (int i = 0; i < pagelist.size(); ++i) {
+        (pagelist.at(i))->loadpage(StatusArray);
+    }
 }

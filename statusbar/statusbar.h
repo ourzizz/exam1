@@ -6,11 +6,15 @@
 #include <QListWidget>
 #include <QObject>
 #include "../examstatus/examstatus.h"
-class StatusBar:public QStatusBar
+#include "../observer.h"
+
+class StatusBar:public QStatusBar,public Observer
 {
     Q_OBJECT
+
     public:
-    StatusBar(ExamStatus *examstatus);
+    StatusBar();
+    void loadpage(bool *StatusArray);
     public slots:
     //void updateStatubar(QListWidget *contentsWidget,ExamStatus *examstatus); 
     void updateStatubar(); 
@@ -19,8 +23,8 @@ class StatusBar:public QStatusBar
     QLabel *examnameLabel;
     QLabel *examkaochangLabel;
     QLabel *examkemuLabel;
-    ExamStatus *examstatus;
     QListWidget *contentsWidget;
+
 };
 
 #endif

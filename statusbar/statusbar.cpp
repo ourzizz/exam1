@@ -1,7 +1,7 @@
 #include "statusbar.h"
-StatusBar::StatusBar(ExamStatus *examstatus)
+StatusBar::StatusBar()
 {
-    this->examstatus = examstatus;
+    //this->examstatus = examstatus;
     bartitle = new QLabel("当前考试------->");
     examnameLabel = new QLabel("当前没有选择考试");
     examkemuLabel = new QLabel("当前考试未设置科目");
@@ -14,20 +14,42 @@ StatusBar::StatusBar(ExamStatus *examstatus)
 }
 void StatusBar::updateStatubar()
 {
-    if(examstatus->GetExamName() != "")
+    //if(examstatus->GetExamName() != "")
+    //{
+        //examnameLabel->setText(examstatus->GetExamName());
+    //}
+    //else
+    //{
+        //return ;
+    //}
+    //if(examstatus->GetStatus(KemuStatus) != false)
+    //{
+    examkemuLabel->setText("successful");
+    //}
+    //else
+    //{
+        //examkemuLabel->setText("当前考试未设置科目");
+    //}
+}
+void StatusBar::loadpage(bool *StatusArray)
+{
+    //if(examstatus->GetExamName() != "")
+    //{
+        //examnameLabel->setText(examstatus->GetExamName());
+    //}
+    //else
+    //{
+        //return ;
+    //}
+    //if(examstatus->GetStatus(KemuStatus) != false)
+    //{
+    if(StatusArray[3]!=false)
     {
-        examnameLabel->setText(examstatus->GetExamName());
+        examkemuLabel->setText("successful");
     }
-    else
-    {
-        return ;
-    }
-    if(examstatus->GetStatus(KemuStatus) != false)
-    {
-        examkemuLabel->setText("科目已经设置");
-    }
-    else
-    {
-        examkemuLabel->setText("当前考试未设置科目");
-    }
+    //}
+    //else
+    //{
+        //examkemuLabel->setText("当前考试未设置科目");
+    //}
 }

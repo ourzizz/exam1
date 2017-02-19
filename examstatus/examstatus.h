@@ -1,26 +1,35 @@
 #ifndef EXAMSTATUS_H
 #define EXAMSTATUS_H
 #include <QtSql>
-#include <Qlist>
+#include <QList>
+#include "../subject.h"
+#include "../observer.h"
 enum status{
-    SelectExamStatus,
+    SelectExamStatus,/*{{{*/
     KemuStatus,
     KaoshengBaomingStatus,
     KaochangStatus,
     JaoshiStatus,
-    KaodianStatus
+    KaodianStatus/*}}}*/
 };
-class ExamStatus
+class ExamStatus:public SubJect
 {
+    //Q_OBJECT
     private:
-        bool StatusArray[5];
         QString exam_name;
         QSqlQuery query;
+    //public slots:
     public:
-        ExamStatus();
         void SelectExam(QString exam_name);
-        bool GetStatus(status set);
+        ExamStatus();
+        bool StatusArray[6];
         QString GetExamName();
+        bool GetStatus(status set);
         void SetStatus(status set,bool stu);
+
+        QList<Observer *> pagelist;
+        void Attach(Observer *pObserver);
+        void Detach(Observer *pObserver);
+        void Notify(bool *StatusArray);
 };
 #endif // EXAMSTATUS_H
