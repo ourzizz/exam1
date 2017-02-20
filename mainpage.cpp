@@ -8,16 +8,16 @@ MainPage::MainPage()
     examstatus = new ExamStatus;
     contentsWidget = new ExList();
 
-    qDebug()<<examstatus;
     pagesWidget = new QStackedWidget;
     setexampage = new SetExamPage(examstatus);
     setkemupage = new SetKemuPage(examstatus);
 
     pagesWidget->addWidget(setexampage);
     pagesWidget->addWidget(setkemupage);
-    //examstatus->Attach(setexampage);
+
     examstatus->Attach(setkemupage);
     examstatus->Attach(statusBar);
+    examstatus->Attach(contentsWidget);
     connect(contentsWidget, &QListWidget::currentItemChanged, this, &MainPage::changePage);
 
     //pagesWidget->addWidget(new UpdatePage);
@@ -25,11 +25,8 @@ MainPage::MainPage()
 
 
     QPushButton *closeButton = new QPushButton(tr("Close"));
-
     contentsWidget->setCurrentRow(0);
-
     connect(closeButton, &QAbstractButton::clicked, this, &QWidget::close);
-
     QHBoxLayout *horizontalLayout = new QHBoxLayout;
     horizontalLayout->addWidget(contentsWidget);
     horizontalLayout->addWidget(pagesWidget, 1);

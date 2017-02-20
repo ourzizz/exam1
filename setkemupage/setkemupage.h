@@ -17,7 +17,7 @@ class SetKemuPage:public QDialog,public Ui::Form,public Observer
         void NewKemu();
         void RemoveKemu();
     private:
-        void loadpage(bool *StatusArray);
+        void loadpage(Status *sts);
         ExamStatus *examstatus;
         QSqlTableModel *model;
         enum{

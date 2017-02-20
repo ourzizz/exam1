@@ -17,7 +17,6 @@ class SetExamPage : public QWidget
 
 public:
     SetExamPage(ExamStatus *examstatus,QWidget *parent=0);
-    //void loadpage(bool *);
     void InitPage();
 
 public slots:

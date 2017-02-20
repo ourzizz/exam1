@@ -14,7 +14,7 @@ class StatusBar:public QStatusBar,public Observer
 
     public:
     StatusBar();
-    void loadpage(bool *StatusArray);
+    void loadpage(Status *sts);
     public slots:
     //void updateStatubar(QListWidget *contentsWidget,ExamStatus *examstatus); 
     void updateStatubar(); 
@@ -23,8 +23,8 @@ class StatusBar:public QStatusBar,public Observer
     QLabel *examnameLabel;
     QLabel *examkaochangLabel;
     QLabel *examkemuLabel;
+    QLabel *kaoshengLabel;
     QListWidget *contentsWidget;
-
 };
 
 #endif

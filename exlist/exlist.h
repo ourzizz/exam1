@@ -15,7 +15,7 @@ class ExList:public QListWidget,public Observer
 {
     Q_OBJECT
 public:
-    void loadpage(bool *StatusArray);
+    void loadpage(Status *sts);
     ExList();
 
 //public slots:

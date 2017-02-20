@@ -70,9 +70,9 @@ void SetKemuPage::RemoveKemu()
         model->revertAll(); //如果不删除，则撤销
     }
 }
-void SetKemuPage::loadpage(bool *StatusArray)
+void SetKemuPage::loadpage(Status *sts)
 {
-    if(StatusArray[2]!=false)
+    if(sts->StatusArray[2]!=false)
     {
         model->setHeaderData(km_name,Qt::Horizontal,tr("fuckkkkkkkkkkkkkkk"));
     }

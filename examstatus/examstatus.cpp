@@ -3,19 +3,20 @@
 #include <QDebug>
 ExamStatus::ExamStatus()
 {
-    exam_name = "";
-    StatusArray[SelectExamStatus] = 0;
-    StatusArray[KemuStatus] = 0;
-    StatusArray[KaoshengBaomingStatus]=0;
-    StatusArray[KaochangStatus]=0;
-    StatusArray[JaoshiStatus] = 0;
-    StatusArray[KaodianStatus] = 0;
+    status = new Status;
+    status->ExamName = "";
+    status->StatusArray[SelectExamStatus] = 0;
+    status->StatusArray[KemuStatus] = 0;
+    status->StatusArray[KaoshengBaomingStatus]=0;
+    status->StatusArray[KaochangStatus]=0;
+    status->StatusArray[JaoshiStatus] = 0;
+    status->StatusArray[KaodianStatus] = 0;
 }
 
 void ExamStatus::SelectExam(QString exam_name)
 {
-    this->exam_name = exam_name;
-    StatusArray[SelectExamStatus] = 1;
+    status->ExamName = exam_name;
+    status->StatusArray[SelectExamStatus] = 1;
     query.clear();
     query.prepare("select count(*) from kemu where ex_name=?");
     query.addBindValue(exam_name);
@@ -23,16 +24,16 @@ void ExamStatus::SelectExam(QString exam_name)
     query.next();
     if(0 == query.value(0))
     {//kemu还没有设置那考场这些信息就没有
-        StatusArray[KemuStatus] = 0;
-        StatusArray[KaoshengBaomingStatus]=0;
-        StatusArray[KaochangStatus]=0;
-        StatusArray[JaoshiStatus] = 0;
-    Notify(StatusArray);
+        status->StatusArray[KemuStatus] = 0;
+        status->StatusArray[KaoshengBaomingStatus]=0;
+        status->StatusArray[KaochangStatus]=0;
+        status->StatusArray[JaoshiStatus] = 0;
+        Notify();
         return ;
     }
     else{
-        StatusArray[KemuStatus] = 1;
-    Notify(StatusArray);
+        status->StatusArray[KemuStatus] = 1;
+        Notify();
     }
 
     query.clear();
@@ -42,13 +43,13 @@ void ExamStatus::SelectExam(QString exam_name)
     query.next();
     if(0 == query.value(0).toInt())
     {
-        StatusArray[KaoshengBaomingStatus]=0;
-        StatusArray[KaochangStatus]=0;
-        StatusArray[JaoshiStatus]= 0;
+        status->StatusArray[KaoshengBaomingStatus]=0;
+        status->StatusArray[KaochangStatus]=0;
+        status->StatusArray[JaoshiStatus]= 0;
         return ;
     }
     else{
-         StatusArray[KaoshengBaomingStatus]= 1;
+         status->StatusArray[KaoshengBaomingStatus]= 1;
     }
 
     query.clear();
@@ -58,12 +59,12 @@ void ExamStatus::SelectExam(QString exam_name)
     query.next();
     if(0 == query.value(0).toInt())
     {
-        StatusArray[KaochangStatus]= 0;
-        StatusArray[JaoshiStatus ]= 0;
+        status->StatusArray[KaochangStatus]= 0;
+        status->StatusArray[JaoshiStatus ]= 0;
         return ;
     }
     else{
-        StatusArray[KaochangStatus] = 1;
+        status->StatusArray[KaochangStatus] = 1;
     }
 
 
@@ -74,25 +75,21 @@ void ExamStatus::SelectExam(QString exam_name)
     query.next();
     if(0 == query.value(0).toInt())
     {
-        StatusArray[JaoshiStatus] = 0;
+        status->StatusArray[JaoshiStatus] = 0;
     }
     else{
-        StatusArray[JaoshiStatus] = 1;
+        status->StatusArray[JaoshiStatus] = 1;
     }
 }
-bool ExamStatus::GetStatus(status set)
+bool ExamStatus::GetStatus(mystatus set)
 {
-    return StatusArray[set];
+    return status->StatusArray[set];
 }
 
-void ExamStatus::SetStatus(status set,bool stu)
+void ExamStatus::SetStatus(mystatus set,bool stu)
 {
-    StatusArray[set] = stu;
-    Notify(StatusArray);
-}
-QString ExamStatus::GetExamName()
-{
-    return exam_name;
+    status->StatusArray[set] = stu;
+    Notify();
 }
 
 void ExamStatus::Attach(Observer *pObserver)
@@ -104,9 +101,15 @@ void ExamStatus::Detach(Observer *pObserver)
 {
     pagelist.removeOne(pObserver);
 }
-void ExamStatus::Notify(bool *StatusArray)
+void ExamStatus::Notify()
 {
     for (int i = 0; i < pagelist.size(); ++i) {
-        (pagelist.at(i))->loadpage(StatusArray);
+        (pagelist.at(i))->loadpage(status);
     }
 }
+QString ExamStatus::GetExamName()
+{
+    return status->ExamName;
+}
+
+

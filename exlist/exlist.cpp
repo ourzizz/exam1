@@ -36,23 +36,23 @@ ExList::ExList()
     KaoChangGuanLiPage->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);/*}}}*/
 }
 
-void ExList::loadpage(bool *StatusArray)
+void ExList::loadpage(Status *sts)
 {
-    if (false == StatusArray[SelectExamStatus]) {/*{{{*/
+    if (false == sts->StatusArray[SelectExamStatus]) {
         SetExamKemuPage->setIcon(QIcon(":/images/lock.png"));
     }
     else{
         SetExamKemuPage->setIcon(QIcon(":/images/kemu.png"));
     }
 
-    if (false == StatusArray[KaoshengBaomingStatus]) {
+    if (false == sts->StatusArray[KaoshengBaomingStatus]) {
         KaoshengBaoMingPage->setIcon(QIcon(":/images/lock.png"));
     }
     else{
         KaoshengBaoMingPage->setIcon(QIcon(":/images/kaosheng.png"));
     }
 
-    if (false == StatusArray[KaochangStatus]){
+    if (false == sts->StatusArray[KaochangStatus]){
         KaoChangGuanLiPage->setIcon(QIcon(":/images/lock.png"));
     }
     else{
