@@ -36,6 +36,7 @@
 
 #Makefile
 Makefile*
+main.cpp
 .qmake.stash
 *.pro
 *.user
