@@ -7,6 +7,7 @@ SetKemuPage::SetKemuPage(ExamStatus *examstatus,QWidget *parent)
     : QWidget(parent)
 {
     this->examstatus = examstatus;
+    this->ExamName="";
     KemuStatus=false;
     kemubox = new QGroupBox("hello");
     kemuModel = new QSqlRelationalTableModel(this);
@@ -28,6 +29,11 @@ SetKemuPage::SetKemuPage(ExamStatus *examstatus,QWidget *parent)
     kemuView->horizontalHeader()->setStretchLastSection(true);
     kemuView->setColumnHidden(km_rs, true);
     kemuView->setColumnHidden(km_sj_count, true);
+    
+    editButton = new QPushButton("编辑科目",this);
+    //closeButton = new QPushButton("保存");
+    connect(editButton, SIGNAL(clicked()), this, SLOT(editKemu()));
+
 
     kemuLabel = new QLabel(tr("考试科目"));
     kemuLabel->setBuddy(kemuView);
@@ -35,58 +41,40 @@ SetKemuPage::SetKemuPage(ExamStatus *examstatus,QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(kemuLabel);
     layout->addWidget(kemuView);
+    layout->addWidget(editButton);
     kemubox->setLayout(layout);
     setLayout(layout);
 }
 
-//void SetKemuPage::SubmitChange()/*{{{*/
-//{
-//model->database().transaction();
-//if(model->submitAll())
-//{
-//model->database().commit();
-//QMessageBox::critical(0,QObject::tr("Database success"), "submit成功");
-//}
-//else
-//{
-//model->database().rollback();
-////QMessageBox::warning(0, QObject::tr("Database Error"), model->lastError().text());
-//model->revertAll();//撤销修改
-//}
-//}
-//void SetKemuPage::NewKemu()
-//{
-//int rowNum = model->rowCount();
-//model->insertRow(rowNum);
-////model->setData(model->index(rowNum,0));
-//}
-//void SetKemuPage::RemoveKemu()
-//{
-//int curRow = tableView->currentIndex().row();
-//QString test =  "确定要删除<" + model->data(model->index(curRow,0)).toString()+">考试吗？";
-//int ret = QMessageBox::warning(this, tr("要删除吗"),
-////tr("本操作将删除当前选中的考试\n" "是否删除?"),
-//test,
-//QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
-//if(ret != QMessageBox::Cancel)
-//{
-//model->removeRow(curRow);
-//}
-//else
-//{
-//model->revertAll(); //如果不删除，则撤销
-//}
-//}/*}}}*/
 
 void SetKemuPage::loadpage(Status *sts)
 {
-    if(this->KemuStatus != sts->StatusArray[KemuStatus])
+
+    if(this->ExamName != sts->ExamName)
     {
-        //kemuModel->clear();
-        QString exname = QString("ex_name = \"%1\"").arg(sts->ExamName);
-        kemuModel->setFilter(exname);
-        kemuModel->select();
-        //kemuView->clearSpans();
-        kemuView->setModel(kemuModel);
+        this->ExamName = sts->ExamName;
+        updatekemuView();
     }
+}
+/*slots fun define*/
+void SetKemuPage::editKemu()
+{
+    QString kemuName="";
+    QModelIndex index = kemuView->currentIndex();
+    if (index.isValid()) {
+        QSqlRecord record = kemuModel->record(index.row());
+        kemuName = record.value(km_name).toString();
+    }
+
+    EditKemuForm form(ExamName,kemuName, this);
+    form.exec();
+    updatekemuView();
+}
+
+void SetKemuPage::updatekemuView()
+{
+    kemuModel->setFilter(QString("ex_name = \"%1\"").arg(this->ExamName));
+    kemuModel->select();
+    kemuView->setModel(kemuModel);
+    kemuView->setCurrentIndex(kemuModel->index(0, 0));
 }
