@@ -1,4 +1,4 @@
-#include <QtGui>
+#include <QtGui>/*{{{*/
 #include <QtSql>
 #include <QLineEdit>
 #include <QLabel>
@@ -8,32 +8,33 @@
 #include <QDataWidgetMapper>
 #include <QGridLayout>
 #include <QHBoxLayout>
-#include <QMessageBox>
+#include <QDebug>
+#include <QMessageBox>/*}}}*/
 
 #include "editkemuform.h"
 
 EditKemuForm::EditKemuForm(QString ExamName,QString kemuName, QWidget *parent)
     : QDialog(parent)
 {
-    nameEdit = new QLineEdit;
+    nameEdit = new QLineEdit;/*{{{*/
 
-    nameLabel = new QLabel(tr("Na&me:"));
+    nameLabel = new QLabel(tr("科目名称:"));
     nameLabel->setBuddy(nameEdit);
 
-    departmentComboBox = new QComboBox;
+    departmentComboBox = new QLabel(ExamName);
 
-    exnameLabel = new QLabel(tr("Depar&tment:"));
+    exnameLabel = new QLabel(tr("所属考试"));
     exnameLabel->setBuddy(departmentComboBox);
 
     hegeEdit = new QLineEdit;
-    hegeEdit->setValidator(new QIntValidator(0, 99999, this));
+    hegeEdit->setValidator(new QIntValidator(0, 100, this));
 
-    hegeLabel = new QLabel(tr("E&xtension:"));
+    hegeLabel = new QLabel(tr("合格分数:"));
     hegeLabel->setBuddy(hegeEdit);
 
     levelEdit = new QLineEdit;
 
-    levelLabel = new QLabel(tr("&Email:"));
+    levelLabel = new QLabel(tr("级别"));
     levelLabel->setBuddy(levelEdit);
 
     startTimeEdit = new QTimeEdit;
@@ -70,30 +71,30 @@ EditKemuForm::EditKemuForm(QString ExamName,QString kemuName, QWidget *parent)
     //tableModel->setRelation(Employee_DepartmentId,
             //QSqlRelation("department", "id", "name"));
     tableModel->setFilter(QString("ex_name = \"%1\"").arg(ExamName));
-    tableModel->setSort(ks_start_time, Qt::AscendingOrder);
+    //tableModel->setSort(ks_start_time, Qt::AscendingOrder);
     tableModel->select();
 
-    QSqlTableModel *relationModel =
-        tableModel->relationModel(ex_name);
-    departmentComboBox->setModel(relationModel);
-    departmentComboBox->setModelColumn(
-            relationModel->fieldIndex("ex_name"));
+    //QSqlTableModel *relationModel =
+       //tableModel->relationModel(ex_name);
+    //departmentComboBox->setModel(relationModel);
+    //departmentComboBox->setModelColumn(
+           //relationModel->fieldIndex("ex_name"));
 
     mapper = new QDataWidgetMapper(this);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
     mapper->setModel(tableModel);
     mapper->setItemDelegate(new QSqlRelationalDelegate(this));
     mapper->addMapping(nameEdit, km_name);
-    //mapper->addMapping(departmentComboBox, Employee_DepartmentId);
+    mapper->addMapping(departmentComboBox,ex_name);
     mapper->addMapping(hegeEdit, km_hegefenshu);
     mapper->addMapping(levelEdit, km_level);
     mapper->addMapping(startTimeEdit, ks_start_time);
-    mapper->addMapping(startTimeEdit, ks_end_time);
-
-    if (ExamName != "") {
+    mapper->addMapping(endTimeEdit, ks_end_time);
+/*}}}*/
+    if (kemuName != "") {
         for (int row = 0; row < tableModel->rowCount(); ++row) {
             QSqlRecord record = tableModel->record(row);
-            if (record.value(km_name).toString() == ExamName) {
+            if (record.value(km_name).toString() == kemuName) {
                 mapper->setCurrentIndex(row);
                 break;
             }
@@ -102,14 +103,17 @@ EditKemuForm::EditKemuForm(QString ExamName,QString kemuName, QWidget *parent)
         mapper->toFirst();
     }
 
+    qDebug()<<"gouzaohanshu mapper->currentIndex() is";
+    qDebug()<<mapper->currentIndex();
+
     connect(firstButton, SIGNAL(clicked()), mapper, SLOT(toFirst()));
     connect(previousButton, SIGNAL(clicked()),
             mapper, SLOT(toPrevious()));
     connect(nextButton, SIGNAL(clicked()), mapper, SLOT(toNext()));
     connect(lastButton, SIGNAL(clicked()), mapper, SLOT(toLast()));
-    connect(addButton, SIGNAL(clicked()), this, SLOT(addEmployee()));
+    connect(addButton, SIGNAL(clicked()), this, SLOT(addKemu()));
     connect(deleteButton, SIGNAL(clicked()),
-            this, SLOT(deleteEmployee()));
+            this, SLOT(deleteKemu()));
     connect(closeButton, SIGNAL(clicked()), this, SLOT(accept()));
 
     QHBoxLayout *topButtonLayout = new QHBoxLayout;/*{{{*/
@@ -133,21 +137,21 @@ EditKemuForm::EditKemuForm(QString ExamName,QString kemuName, QWidget *parent)
     mainLayout->addWidget(levelEdit, 4, 1, 1, 2);
     mainLayout->addWidget(startTimeLabel, 5, 0);
     mainLayout->addWidget(startTimeEdit, 5, 1);
-    mainLayout->addWidget(endTimeLabel, 5, 0);
-    mainLayout->addWidget(endTimeEdit, 5, 1);
-    mainLayout->addWidget(buttonBox, 7, 0, 1, 3);
-    mainLayout->setRowMinimumHeight(6, 10);
-    mainLayout->setRowStretch(6, 1);
+    mainLayout->addWidget(endTimeLabel, 6, 0);
+    mainLayout->addWidget(endTimeEdit, 6, 1);
+    mainLayout->addWidget(buttonBox, 8, 0, 1, 3);
+    mainLayout->setRowMinimumHeight(7, 10);
+    mainLayout->setRowStretch(7, 1);
     mainLayout->setColumnStretch(2, 1);
     setLayout(mainLayout);/*}}}*/
 
-    if (ExamName != "") {
+    if (kemuName != "") {
         nextButton->setFocus();
     } else {
         nameEdit->setFocus();
     }
 
-    setWindowTitle(tr("hello"));
+    setWindowTitle(tr("编辑科目"));
 }
 
 void EditKemuForm::done(int result)
@@ -156,20 +160,27 @@ void EditKemuForm::done(int result)
     QDialog::done(result);
 }
 
-void EditKemuForm::addEmployee()
+void EditKemuForm::addKemu()
 {
     int row = mapper->currentIndex();
+    if (row == -1)
+    {//插入范围如果为-1不合法所以不被执行,当model没有内容的时候当前index怎么设置都是-1so 
+        row = 0;
+    }
+    qDebug()<<row;
     mapper->submit();
+
     tableModel->insertRow(row);
     mapper->setCurrentIndex(row);
-
     nameEdit->clear();
     hegeEdit->clear();
     startTimeEdit->setTime(QTime::currentTime());
+    //startTimeEdit->setTime("9:00");
+    //endTimeEdit->setTime("11:00");
     nameEdit->setFocus();
 }
 
-void EditKemuForm::deleteEmployee()
+void EditKemuForm::deleteKemu()
 {
     int row = mapper->currentIndex();
     tableModel->removeRow(row);

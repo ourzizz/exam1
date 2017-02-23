@@ -34,8 +34,8 @@ public:
     void done(int result);
 
 private slots:
-    void addEmployee();
-    void deleteEmployee();
+    void addKemu();
+    void deleteKemu();
 
 private:
     QSqlRelationalTableModel *tableModel;
@@ -47,7 +47,7 @@ private:
     QLabel *startTimeLabel;
     QLabel *endTimeLabel;
     QLineEdit *nameEdit;
-    QComboBox *departmentComboBox;
+    QLabel *departmentComboBox;
     QLineEdit *hegeEdit;
     QLineEdit *levelEdit;
     QTimeEdit *startTimeEdit;

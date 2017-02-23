@@ -66,7 +66,7 @@ void SetKemuPage::editKemu()
         kemuName = record.value(km_name).toString();
     }
 
-    EditKemuForm form(ExamName,kemuName, this);
+    EditKemuForm form(this->ExamName,kemuName, this);
     form.exec();
     updatekemuView();
 }
