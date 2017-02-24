@@ -9,9 +9,8 @@
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QDebug>
-#include <QMessageBox>/*}}}*/
-
-#include "editkemuform.h"
+#include <QMessageBox>
+#include "editkemuform.h" /*}}}*/
 
 EditKemuForm::EditKemuForm(QString ExamName,QString kemuName, QWidget *parent)
     : QDialog(parent)
@@ -54,7 +53,7 @@ EditKemuForm::EditKemuForm(QString ExamName,QString kemuName, QWidget *parent)
 
     firstButton = new QPushButton(tr("<< 第一科目"));
     previousButton = new QPushButton(tr("< 上一科目"));
-    nextButton = new QPushButton(tr("上一科目 >"));
+    nextButton = new QPushButton(tr("下一科目 >"));
     lastButton = new QPushButton(tr("最后一科>>"));
 
     addButton = new QPushButton(tr("&Add"));
@@ -100,13 +99,11 @@ EditKemuForm::EditKemuForm(QString ExamName,QString kemuName, QWidget *parent)
             }
         }
     } else {
-        mapper->toFirst();
+        tableModel->insertRow(0);
+        mapper->setCurrentIndex(0);
+        //mapper->toFirst(); //model为空的时候toFirst的位置为-1
     }
-
-    qDebug()<<"gouzaohanshu mapper->currentIndex() is";
-    qDebug()<<mapper->currentIndex();
-
-    connect(firstButton, SIGNAL(clicked()), mapper, SLOT(toFirst()));
+    connect(firstButton, SIGNAL(clicked()), mapper, SLOT(toFirst()));/*{{{*/
     connect(previousButton, SIGNAL(clicked()),
             mapper, SLOT(toPrevious()));
     connect(nextButton, SIGNAL(clicked()), mapper, SLOT(toNext()));
@@ -114,8 +111,7 @@ EditKemuForm::EditKemuForm(QString ExamName,QString kemuName, QWidget *parent)
     connect(addButton, SIGNAL(clicked()), this, SLOT(addKemu()));
     connect(deleteButton, SIGNAL(clicked()),
             this, SLOT(deleteKemu()));
-    connect(closeButton, SIGNAL(clicked()), this, SLOT(accept()));
-
+    connect(closeButton, SIGNAL(clicked()), this, SLOT(accept()));/*}}}*/
     QHBoxLayout *topButtonLayout = new QHBoxLayout;/*{{{*/
     topButtonLayout->setContentsMargins(20, 0, 20, 5);
     topButtonLayout->addStretch();
@@ -143,7 +139,7 @@ EditKemuForm::EditKemuForm(QString ExamName,QString kemuName, QWidget *parent)
     mainLayout->setRowMinimumHeight(7, 10);
     mainLayout->setRowStretch(7, 1);
     mainLayout->setColumnStretch(2, 1);
-    setLayout(mainLayout);/*}}}*/
+    setLayout(mainLayout);
 
     if (kemuName != "") {
         nextButton->setFocus();
@@ -151,25 +147,19 @@ EditKemuForm::EditKemuForm(QString ExamName,QString kemuName, QWidget *parent)
         nameEdit->setFocus();
     }
 
-    setWindowTitle(tr("编辑科目"));
+    setWindowTitle(tr("编辑科目"));/*}}}*/
 }
 
 void EditKemuForm::done(int result)
-{
+{/*{{{*/
     mapper->submit();
     QDialog::done(result);
-}
+}/*}}}*/
 
 void EditKemuForm::addKemu()
 {
     int row = mapper->currentIndex();
-    if (row == -1)
-    {//插入范围如果为-1不合法所以不被执行,当model没有内容的时候当前index怎么设置都是-1so 
-        row = 0;
-    }
-    qDebug()<<row;
     mapper->submit();
-
     tableModel->insertRow(row);
     mapper->setCurrentIndex(row);
     nameEdit->clear();
