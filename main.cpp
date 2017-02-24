@@ -6,7 +6,8 @@
 bool connectiondatabes()  
 {  
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");  
-    db.setHostName("192.168.1.107");
+    //db.setHostName("192.168.1.107");
+    db.setHostName("192.168.15.233");
     db.setDatabaseName("mydb");
     db.setUserName("root");  
     db.setPassword("123123");  
@@ -28,3 +29,4 @@ int main(int argc, char *argv[])
     mainpage.showMaximized();
     return app.exec();
 }
+

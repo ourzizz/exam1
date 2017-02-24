@@ -22,11 +22,8 @@ EditKemuForm::EditKemuForm(QString ExamName,QString kemuName, QWidget *parent)
 
     departmentComboBox = new QLabel(ExamName);
 
-    exnameLabel = new QLabel(tr("所属考试"));
-    exnameLabel->setBuddy(departmentComboBox);
-
-    hegeEdit = new QLineEdit;
-    hegeEdit->setValidator(new QIntValidator(0, 100, this));
+    exna
+    HEGEEDITh->setValidator(new QIntValidator(0, 100, this));
 
     hegeLabel = new QLabel(tr("合格分数:"));
     hegeLabel->setBuddy(hegeEdit);

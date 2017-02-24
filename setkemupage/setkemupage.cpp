@@ -8,12 +8,10 @@ SetKemuPage::SetKemuPage(ExamStatus *examstatus,QWidget *parent)
 {
     this->examstatus = examstatus;
     this->ExamName="";
-    KemuStatus=false;
+    Kemu_Status=false;
     kemubox = new QGroupBox("hello");
     kemuModel = new QSqlRelationalTableModel(this);
     kemuModel->setTable("kemu");
-    //kemuModel->setRelation(ex_name,
-    // QSqlRelation("exam", "ex_name", "ex_name"));
     kemuModel->setHeaderData(km_name,Qt::Horizontal,tr("科目名称"));
     kemuModel->setHeaderData(ex_name,Qt::Horizontal,tr("考试名称"));
     kemuModel->setHeaderData(ks_start_time,Qt::Horizontal,tr("开始时间"));
@@ -31,17 +29,24 @@ SetKemuPage::SetKemuPage(ExamStatus *examstatus,QWidget *parent)
     kemuView->setColumnHidden(km_sj_count, true);
     
     editButton = new QPushButton("编辑科目",this);
-    //closeButton = new QPushButton("保存");
     connect(editButton, SIGNAL(clicked()), this, SLOT(editKemu()));
 
+    saveButton = new QPushButton("保存");
+    connect(saveButton, SIGNAL(clicked()), this, SLOT(saveKemu()));
 
     kemuLabel = new QLabel(tr("考试科目"));
     kemuLabel->setBuddy(kemuView);
 
+    QHBoxLayout *bottonlayout = new QHBoxLayout;
     QVBoxLayout *layout = new QVBoxLayout;
+
+    bottonlayout->addStretch(1);
+    bottonlayout->addWidget(editButton);
+    bottonlayout->addWidget(saveButton);
+
     layout->addWidget(kemuLabel);
     layout->addWidget(kemuView);
-    layout->addWidget(editButton);
+    layout->addLayout(bottonlayout);
     kemubox->setLayout(layout);
     setLayout(layout);
 }
@@ -77,4 +82,16 @@ void SetKemuPage::updatekemuView()
     kemuModel->select();
     kemuView->setModel(kemuModel);
     kemuView->setCurrentIndex(kemuModel->index(0, 0));
+}
+
+void SetKemuPage::saveKemu()
+{
+    QSqlRecord record = kemuModel->record(0);
+    if (record.value(km_name).toString() != "") {
+        examstatus->SetStatus(KaoshengBaomingStatus,true);
+        //examstatus->SetStatus(KemuStatus,true);
+    }
+    else{
+        examstatus->SetStatus(KemuStatus,false);
+    }
 }

@@ -21,17 +21,18 @@ class SetKemuPage:public QWidget,public Observer
             //void SubmitChange();
             void editKemu();
             void updatekemuView();
-            //void RemoveKemu();
+            void saveKemu();
     private:
             ExamStatus *examstatus;
             QString ExamName;
-            bool KemuStatus;
+            bool Kemu_Status;
             QLabel *kemuLabel;
             QGroupBox *kemubox;
             //QWidget kemuPanel;
             QTableView *kemuView;
             QSqlRelationalTableModel *kemuModel;
             QPushButton *editButton;
+            QPushButton *saveButton;
             //QPushButton closeButton;
 };
 #endif
