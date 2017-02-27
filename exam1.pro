@@ -19,7 +19,9 @@ HEADERS += mainpage.h \
            setexampage/setexampage.h \
            setkemupage/editkemuform.h \
            setkemupage/setkemupage.h \
-           statusbar/statusbar.h
+           statusbar/statusbar.h \
+    kspage/kspage.h \
+    kspage/setkspage.h
 SOURCES += main.cpp \
            mainpage.cpp \
            examstatus/examstatus.cpp \
@@ -28,5 +30,9 @@ SOURCES += main.cpp \
            setexampage/setexampage.cpp \
            setkemupage/editkemuform.cpp \
            setkemupage/setkemupage.cpp \
-           statusbar/statusbar.cpp
+           statusbar/statusbar.cpp \
+    kspage/setkspage.cpp
 RESOURCES += exampage.qrc
+
+FORMS += \
+    kspage/ks.ui

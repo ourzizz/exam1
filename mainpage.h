@@ -6,6 +6,7 @@
 #include "statusbar/statusbar.h"
 #include "setexampage/setexampage.h"
 #include "setkemupage/setkemupage.h"
+#include "kspage/setkspage.h"
 #include "exlist/exlist.h"
 
 QT_BEGIN_NAMESPACE
@@ -31,5 +32,6 @@ private:
     ExamStatus *examstatus;
     SetExamPage *setexampage;
     SetKemuPage *setkemupage;
+    SetksPage *setkspage;
 };
 #endif

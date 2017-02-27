@@ -88,6 +88,11 @@ bool ExamStatus::GetStatus(mystatus set)
 
 void ExamStatus::SetStatus(mystatus set,bool stu)
 {
+    //query.clear();
+    //query.prepare("update status set ? where ex_name=?");
+    //query.addBindValue(exam_name);
+    //query.exec();
+
     status->StatusArray[set] = stu;
     Notify();
 }

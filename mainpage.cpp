@@ -11,18 +11,18 @@ MainPage::MainPage()
     pagesWidget = new QStackedWidget;
     setexampage = new SetExamPage(examstatus);
     setkemupage = new SetKemuPage(examstatus);
+    setkspage = new SetksPage(examstatus);
 
     pagesWidget->addWidget(setexampage);
     pagesWidget->addWidget(setkemupage);
+    pagesWidget->addWidget(setkspage);
 
     examstatus->Attach(setkemupage);
     examstatus->Attach(statusBar);
+    examstatus->Attach(setkspage);
     examstatus->Attach(contentsWidget);
+
     connect(contentsWidget, &QListWidget::currentItemChanged, this, &MainPage::changePage);
-
-    //pagesWidget->addWidget(new UpdatePage);
-    //pagesWidget->addWidget(new QueryPage);
-
 
     QPushButton *closeButton = new QPushButton(tr("Close"));
     contentsWidget->setCurrentRow(0);

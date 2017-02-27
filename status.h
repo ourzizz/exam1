@@ -1,5 +1,6 @@
 #ifndef STATUS_H
 #define STATUS_H
+#include <QString>
 enum mystatus{
     SelectExamStatus,/*{{{*/
     KemuStatus,

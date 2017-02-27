@@ -299,30 +299,41 @@ CREATE TABLE IF NOT EXISTS `mydb`.`ksinfo_has_zhiwei` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE TABLE `mydb`.`status` (
+    `ex_name` VARCHAR(40) ,
+    `kemu` INT NULL,
+    `ksinfo` INT NULL,
+    `kaodian` INT NULL,
+    `kaochang` INT NULL,
+    FOREIGN KEY (`ex_name`)
+    REFERENCES `mydb`.`exam` (`ex_name`)
+    ON DELETE cascade
+    ON UPDATE cascade,
+PRIMARY KEY (`ex_name`));
 
 -- -----------------------------------------------------
 -- Table `mydb`.`kszkz`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`kszkz` (
-  `ks_idcard` CHAR(18) NOT NULL,
-  `ex_name` VARCHAR(45) NOT NULL,
-  `zkznum` BIGINT NULL,
-  PRIMARY KEY (`ks_idcard`, `ex_name`),
-  INDEX `fk_ksinfo_has_exam_exam1_idx` (`ex_name` ASC),
-  INDEX `fk_ksinfo_has_exam_ksinfo1_idx` (`ks_idcard` ASC),
-  CONSTRAINT `fk_ksinfo_has_exam_ksinfo1`
+    `ks_idcard` CHAR(18) NOT NULL,
+    `ex_name` VARCHAR(45) NOT NULL,
+    `zkznum` BIGINT NULL,
+    PRIMARY KEY (`ks_idcard`, `ex_name`),
+    INDEX `fk_ksinfo_has_exam_exam1_idx` (`ex_name` ASC),
+    INDEX `fk_ksinfo_has_exam_ksinfo1_idx` (`ks_idcard` ASC),
+    CONSTRAINT `fk_ksinfo_has_exam_ksinfo1`
     FOREIGN KEY (`ks_idcard`)
     REFERENCES `mydb`.`ksinfo` (`ks_idcard`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ksinfo_has_exam_exam1`
+    CONSTRAINT `fk_ksinfo_has_exam_exam1`
     FOREIGN KEY (`ex_name`)
     REFERENCES `mydb`.`exam` (`ex_name`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ENGINE = InnoDB;
 
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+    SET SQL_MODE=@OLD_SQL_MODE;
+    SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+    SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
