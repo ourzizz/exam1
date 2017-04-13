@@ -127,3 +127,4 @@ void SetExamPage::SelectExamForGlobal()
     examstatus->SelectExam(name);
     //examstatus->SetStatus(SelectExamStatus,1);
 }
+
